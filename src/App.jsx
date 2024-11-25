@@ -7,6 +7,7 @@ function App() {
     <Profile />
     <Profile />
     <Profile />
+    <Profile />
   </section>)
 }
 
