@@ -13,23 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.8.0
+      - name: Deploy to EC2 using SSH
+        uses: appleboy/ssh-action@master
         with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
-
-      - name: Deploy to EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no ec2-user@18.207.220.76 "
-            if [ -d /var/www/html/.git ]; then
-              echo 'El repositorio ya existe, ejecutando git pull...'
-              cd /var/www/html &&
-              git reset --hard &&
-              git pull origin main
-            else
-              echo 'El repositorio no existe, clonando...'
-              sudo rm -rf /var/www/html/* &&
-              git clone https://github.com/edflorese/basic-react.git /var/www/html
-            fi &&
+          host: 18.207.220.76
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            git pull https://github.com/edflorese/basic-react.git
             sudo systemctl restart httpd
-          "
