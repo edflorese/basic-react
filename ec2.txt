@@ -22,8 +22,10 @@ cd /proyectos
 sudo yum install git -y
 sudo git clone https://github.com/edflorese/basic-react.git
 sudo chown -R ec2-user:ec2-user basic-react/
+sudo chmod -R 755 /proyectos/basic-react
 git config --global --add safe.directory /proyectos/basic-react
 cd basic-react
+sudo chown -R ec2-user:ec2-user node_modules/
 npm install
 npm run build
 sudo mv dist/* /var/www/html/
