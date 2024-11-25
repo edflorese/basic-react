@@ -23,7 +23,8 @@ jobs:
         ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "
           sudo yum install -y nodejs npm &&  
           cd /proyectos/basic-react &&
-          git fetch origin master &&
+          git reset --hard HEAD &&
+          git pull origin master &&
           npm run build &&
           sudo rm -rf /var/www/html/* &&
           sudo cp -r build/* /var/www/html/ &&
