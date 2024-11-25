@@ -22,11 +22,14 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "
           sudo yum install -y nodejs npm &&
-          sudo chown -R ec2-user:ec2-user /proyectos/basic-react  
+          sudo chown -R ec2-user:ec2-user /proyectos/basic-react &&
+          sudo chmod -R 755 /proyectos/basic-react &&
+          git config --global --add safe.directory /proyectos/basic-react &&
           cd /proyectos/basic-react &&
-          sudo chown -R ec2-user:ec2-user node_modules/
           git reset --hard HEAD &&
           git pull origin master &&
+          rm -rf dist &&
+          npm install &&
           npm run build &&
           sudo rm -rf /var/www/html/* &&
           sudo cp -r dist/* /var/www/html/ &&
