@@ -20,7 +20,8 @@ git config --global user.email edflorese@uce.edu.ec
 git config --global user.name edflorese
 sudo git clone https://github.com/edflorese/basic-react.git
 cd basic-react
-sudo chown -R ec2-user:ec2-user /var/www/html/basic-react
+sudo chown -R ec2-user:ec2-user /proyectos/basic-react
+sudo chmod -R 755 /proyectos/basic-react
 npm install
 npm run build
 sudo mv dist/* /var/www/html/
