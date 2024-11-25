@@ -21,7 +21,6 @@ jobs:
     - name: Update code on EC2
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "
-          git config --global --add safe.directory /proyectos/basic-react &&
           cd /proyectos/basic-react &&
           git pull origin master &&
           npm run build &&
