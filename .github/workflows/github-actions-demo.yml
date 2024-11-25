@@ -21,6 +21,7 @@ jobs:
     - name: Update code on EC2
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "
+          sudo yum install -y nodejs npm &&  
           cd /proyectos/basic-react &&
           git pull origin master &&
           npm run build &&
