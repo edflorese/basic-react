@@ -28,7 +28,7 @@ jobs:
           cd /proyectos/basic-react &&
           git reset --hard HEAD &&
           git pull origin master &&
-          rm -rf dist &&
+          rm -rf dist/ &&
           npm install &&
           npm run build &&
           sudo rm -rf /var/www/html/* &&
