@@ -1,4 +1,4 @@
-name: Deploy to EC2
+name: Update EC2 Instance
 
 on:
   push:
@@ -10,24 +10,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Deploy to EC2 using SSH
-        uses: appleboy/ssh-action@v0.1.0
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22
-          script: |
-            cd /var/www/html
-            git clone https://github.com/edflorese/basic-react.git
-            cd basic-react
-            sudo chown -R ${{ secrets.USERNAME }}:${{ secrets.USERNAME }} /var/www/html/basic-react
-            npm install
-            npm run build
-            sudo mv dist/* /var/www/html/
-            sudo chown -R apache:apache /var/www/html/
-            sudo chmod -R 755 /var/www/html/
-            sudo systemctl restart httpd
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+    - name: Update code on EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "
+          cd /proyectos/basic-react &&
+          git pull origin main &&
+          npm run build &&
+          sudo rm -rf /var/www/html/* &&
+          sudo cp -r build/* /var/www/html/ &&
+          sudo systemctl restart httpd
+        "

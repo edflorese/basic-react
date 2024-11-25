@@ -13,7 +13,8 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 nvm install --lts
-cd /var/www/html
+mkdir /proyectos
+cd /proyectos
 sudo yum install git -y
 git config --global user.email edflorese@uce.edu.ec
 git config --global user.name edflorese
