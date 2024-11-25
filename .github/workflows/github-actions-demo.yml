@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      master
+      - master
 
 jobs:
   deploy:
@@ -13,15 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.8.0
+      - name: Deploy to EC2 using SSH
+        uses: appleboy/ssh-action@master
         with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
-
-      - name: Deploy to EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no ec2-user@18.207.220.76 "
-            sudo rm -rf /var/www/html/* &&
-            git clone https://github.com/edflorese/basic-react.git /var/www/html &&
+          host: 18.207.220.76
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo rm -rf /var/www/html/*
+            git clone https://github.com/edflorese/basic-react.git /var/www/html
             sudo systemctl restart httpd
-          "
