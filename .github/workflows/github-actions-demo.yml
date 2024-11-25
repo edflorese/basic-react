@@ -21,17 +21,12 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            cd /var/www/my-app || exit
+            cd /var/www/html
 
             git reset --hard
+
+            git clean -fd
             git pull origin master
 
-            sudo yum install -y nodejs npm
             npm install
-
-            # Construye la aplicación
             npm run build
-
-            sudo cp -r build/* /var/www/html/
-
-            sudo systemctl restart httpd
