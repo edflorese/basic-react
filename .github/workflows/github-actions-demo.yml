@@ -24,7 +24,7 @@ jobs:
             cd /var/www/html
             git clone https://github.com/edflorese/basic-react.git
             cd basic-react
-            sudo chown -R ec2-user:ec2-user /var/www/html/basic-react
+            sudo chown -R ${{ secrets.USERNAME }}:${{ secrets.USERNAME }} /var/www/html/basic-react
             npm install
             npm run build
             sudo mv dist/* /var/www/html/
