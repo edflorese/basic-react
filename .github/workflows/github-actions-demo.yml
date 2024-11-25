@@ -23,7 +23,7 @@ jobs:
         ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "
           git config --global --add safe.directory /proyectos/basic-react &&
           cd /proyectos/basic-react &&
-          git pull origin main &&
+          git pull origin master &&
           npm run build &&
           sudo rm -rf /var/www/html/* &&
           sudo cp -r build/* /var/www/html/ &&
