@@ -1,0 +1,28 @@
+#!/bin/bash
+sudo yum update -y
+sudo yum install httpd -y
+sudo systemctl start httpd
+sudo systemctl enable httpd
+sudo yum install firewalld -y
+sudo systemctl start firewalld
+sudo systemctl enable firewalld
+sudo firewall-cmd --permanent --add-service=http
+sudo firewall-cmd --permanent --add-service=https
+sudo firewall-cmd --reload
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+nvm install --lts
+cd /var/www/html
+sudo yum install git -y
+git config --global user.email edflorese@uce.edu.ec
+git config --global user.name edflorese
+sudo git clone https://github.com/edflorese/basic-react.git
+cd basic-react
+sudo chown -R ec2-user:ec2-user /var/www/html/basic-react
+npm install
+npm run build
+sudo mv dist/* /var/www/html/
+sudo chown -R apache:apache /var/www/html/
+sudo chmod -R 755 /var/www/html/
+sudo systemctl restart httpd
